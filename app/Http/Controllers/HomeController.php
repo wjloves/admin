@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Services\Lottory\MethodsService;
 use Auth;
+use App\Models\AdminUsers;
 
 /**
  * 前台首页
@@ -27,10 +28,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $data = AdminUsers::get();
+        var_dump($data);
         try{
         } catch(Exception $e){
         }
         echo 1111;
-        return view('home');
+        // return view('home');
     }
 }
