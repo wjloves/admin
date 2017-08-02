@@ -50,7 +50,7 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
 
 });
 
-
+Route::get('/home1', ['as' => 'admin.home', 'uses' => 'HomeController@index']);
 
 Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
         Route::get('/user', function () {
