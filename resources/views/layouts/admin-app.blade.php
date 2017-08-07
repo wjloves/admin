@@ -63,6 +63,10 @@
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li class="sub-menus"><a class="sub-menu-a" href="{{ url('admin/home') }}">首页</a></li></li>
                 <li class="sub-menus"><a class="sub-menu-a" href="{{ route('user.list') }}">用户管理</a></li></li>
+                <li class="sub-menus"><a class="sub-menu-a" href="">课程管理</a></li></li>
+                <li class="sub-menus"><a class="sub-menu-a" href="">推送管理</a></li></li>
+                <li class="sub-menus"><a class="sub-menu-a" href="">菜单管理</a></li></li>
+                <li class="sub-menus"><a class="sub-menu-a" href="">会员卡管理</a></li></li>
             </ul>
 
 
