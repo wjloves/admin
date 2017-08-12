@@ -51,18 +51,20 @@ class WechatController extends Controller
         Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
         $wechat = app('wechat');
-        $user = $wechat->user;
+        $userService = $wechat->user;
         $server = $wechat->server;
 
        // $message = $server->getMessage();
 
        // Log::info($message);
         $server->setMessageHandler(function($message){
-            return "您好！欢迎关注我!";
+            $user = $userService->get($message->FromUserName);
+            return "您好！欢迎关注我!".$user['nickname'];
         });
 
-        Log::info('return response.');
+
         $response = $server->serve();
+        Log::info($response);
         return $response;
     }
 }
