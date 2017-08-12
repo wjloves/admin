@@ -26,6 +26,7 @@ class WechatController extends Controller
     public function verifyToken(Request $request)
     {
         $echostr = $request->input('echostr');
+        Log::info($echostr);
         return response($echostr, 200);
     }
 
