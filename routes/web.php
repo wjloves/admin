@@ -46,11 +46,13 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
         Route::any('/lock/{id}/{state}',['as'=>'user.lock','uses'=>'UserController@userLock']);
     });
 
-    Route::any('/wechat', 'WechatController@serve');
-
 });
 
 
+
+Route::group(['middleware'=>'wechat'],function(){
+    Route::any('/wechat', 'WechatController@verifyToken');
+});
 
 Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
         Route::get('/user', function () {
@@ -68,4 +70,5 @@ Route::group(['prefix' => 'wechat'], function () {
     //oauth userinfo
     Route::get('profile', ['as' => 'api.wechat.profile', 'uses' => 'DemoController@profile']);
 });
+
 

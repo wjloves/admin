@@ -3,9 +3,27 @@
 namespace App\Http\Controllers;
 
 use Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WechatController extends Controller
 {
+
+    /**
+     * 基本验证
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * 验证开发者
+     * @return [type] [description]
+     */
+    public function verifyToken(Request $request)
+    {
+        return response('echostr.', 200);
+    }
 
     /**
      * 处理微信的请求消息
