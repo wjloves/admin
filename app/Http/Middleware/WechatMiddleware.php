@@ -41,7 +41,7 @@ class WechatMiddleware
 
         // 用自己的 signature 去跟请求里的 signature 对比
         if ($our_signature != $signature) {
-            return response('Unauthorized.', 400);
+           // return response('Unauthorized.', 400);
         }
 
         return $next($request);
