@@ -52,6 +52,7 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
 
 Route::group(['middleware'=>'wechat'],function(){
     Route::any('/wechat', 'WechatController@verifyToken');
+    Route::any('/test', 'WechatController@serve');
 });
 
 Route::group(['middleware' => ['web', 'wechat.oauth']], function () {

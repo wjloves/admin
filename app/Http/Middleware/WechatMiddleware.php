@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Zizaco\Entrust\EntrustFacade as Entrust;
 use Route,URL,Log;
+use Illuminate\Support\Facades\Redis;
 
 /**
  * 后台Auth认证

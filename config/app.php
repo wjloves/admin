@@ -182,7 +182,7 @@ return [
         *  tools
         */
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
-        // Overtrue\LaravelWechat\ServiceProvider::class,
+        Overtrue\LaravelWechat\ServiceProvider::class,
 
     ],
 
