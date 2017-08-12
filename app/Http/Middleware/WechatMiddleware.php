@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Zizaco\Entrust\EntrustFacade as Entrust;
-use Route,URL;
+use Route,URL,Log;
 
 /**
  * 后台Auth认证
@@ -26,6 +26,8 @@ class WechatMiddleware
         $signature = $request->input('signature');
         $timestamp = $request->input('timestamp');
         $nonce     = $request->input('nonce');
+
+        Log::info(json_encode($request->toArray()));
 
         // ninghao 是我在微信后台手工添加的 token 的值
         $token = 'nwszkcskmvpaejc4qsg2ashbsisntwlq';
