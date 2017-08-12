@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 class WechatController extends Controller
 {
 
+    const Token = 'nwszkcskmvpaejc4qsg2ashbsisntwlq';
+
+    const EncodingAESKey = 'cNhGgZdfqvE9ZzCuq42J2ZAizy7dieEdtbBZSFgqEcd';
     /**
      * 基本验证
      */
@@ -22,7 +25,8 @@ class WechatController extends Controller
      */
     public function verifyToken(Request $request)
     {
-        return response('echostr.', 200);
+        $echostr = $request->input('echostr');
+        return response($echostr, 200);
     }
 
     /**
