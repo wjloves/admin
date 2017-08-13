@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
  */
 class UserController extends BaseController
 {
-    const cardType = [1=>"月卡",2=>"季卡",3=>"年卡"];
 
     /**
      * Create a new controller instance.
@@ -33,9 +32,9 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $users = UserModel::where('status','!=',7)->get();
+        $users = UserModel::with('userGroup')->with('vip')->where('status','!=',7)->get();
 
-        return view('admin.user.userslist',['users'=>$users,'cardType'=>self::cardType]);
+        return view('admin.user.userslist',['users'=>$users]);
     }
 
  /**
@@ -127,4 +126,5 @@ class UserController extends BaseController
 
         return response()->json(['errorCode' => 60002, 'message' => '操作失败']);
     }
+
 }

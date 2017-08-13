@@ -35,10 +35,12 @@
                                         </span>
                                     </th>
                                     <th>用户ID</th>
+                                    <th>昵称</th>
                                     <th>微信</th>
                                     <th>会员类别</th>
                                     <th>剩余次数</th>
                                     <th>会员过期时间</th>
+                                    <th>用户组</th>
                                     <th>状态</th>
                                     <th>操作</th>
                                 </tr>
@@ -54,10 +56,12 @@
                                             </div>
                                         </td>
                                         <td>{{ $user->id }}</td>
-                                        <td>{{ $user->wechatID }}</td>
-                                        <td>{{ $cardType[$user->card_type] }}</td>
+                                        <td>{{ $user->nick_name }}</td>
+                                        <td>{{ $user->wechat }}</td>
+                                        <td>{{ $user->vip->name }}</td>
                                         <td>{{ $user->times }}</td>
                                         <td>{{ $user->ex_time }}</td>
+                                        <td>{{ $user->userGroup->group_name }}</td>
                                         <td>{!! $user->status== 0 ? '<span class="label label-default">禁用</span>':'<span class="label label-success">正常</span>' !!}</td>
                                         <td>
                                             @if ($user->status == 0)

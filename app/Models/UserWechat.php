@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserWechat extends Model
 {
+    const teacherGroup = 1;
+
     /**
     *   关联表名称
     */
@@ -30,7 +32,7 @@ class UserWechat extends Model
      * @var array
      */
     protected $fillable = [
-        'username', 'wechatID', 'card_type', 'times','ex_time','status'
+        'username', 'nick_name','wechat', 'openid','card_type', 'from_user','user_group','times','ex_time','status'
     ];
 
     /**
@@ -40,13 +42,37 @@ class UserWechat extends Model
      */
     protected $hidden = [];
 
+    /**
+     * 通过from_user 查看是否是老师
+     * @param  [type] $from_user [description]
+     * @return [type]            [description]
+     */
+    static public function getTeachByFromUser($from_user)
+    {
+        $user = self::where('user_group',self::teacherGroup)->where('from_user',$from_user)->first();
+
+        if($user){
+            return $user->id;
+        }
+
+        return false;
+    }
 
     /**
-     *
-     * @return type
+     * 关联用户组表
+     * @return [type] [description]
      */
-    public function prize()
+    public function userGroup()
     {
-       // return $this->hasOne('App\Models\Prize');
+        return $this->belongsTo('App\Models\UserGroups','user_group','id');
+    }
+
+    /**
+     * 关联会员表
+     * @return [type] [description]
+     */
+    public function vip()
+    {
+        return $this->belongsTo('App\Models\Vip','vip_id','id');
     }
 }
