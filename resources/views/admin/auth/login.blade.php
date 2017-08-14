@@ -7,7 +7,7 @@
 
             <div class="signin-info">
                 <div class="logopanel">
-                    <h1><span>[</span> MaycDacne <span>]</span></h1>
+                    <h1><span>[</span> MaycDance <span>]</span></h1>
                 </div><!-- logopanel -->
 
                 <div class="mb20"></div>

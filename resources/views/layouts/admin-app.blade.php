@@ -16,6 +16,7 @@
         <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
         @show
 
+
                 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="{{ asset('js/html5shiv.js') }}"></script>
@@ -23,7 +24,7 @@
         <![endif]-->
 </head>
 
-<body>
+<body style="overflow: visible;">
 
 <!-- Preloader -->
 <!-- <div id="preloader">

@@ -32,7 +32,7 @@ class UserWechat extends Model
      * @var array
      */
     protected $fillable = [
-        'username', 'nick_name','wechat', 'openid','card_type', 'from_user','user_group','times','ex_time','status'
+        'username', 'nick_name','wechat', 'openid','vip_id', 'from_user','group_id','times','ex_time','status'
     ];
 
     /**
@@ -64,7 +64,7 @@ class UserWechat extends Model
      */
     public function userGroup()
     {
-        return $this->belongsTo('App\Models\UserGroups','user_group','id');
+        return $this->belongsTo('App\Models\UserGroups','group_id','id');
     }
 
     /**
