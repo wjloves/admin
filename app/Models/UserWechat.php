@@ -64,7 +64,7 @@ class UserWechat extends Model
      */
     public function userGroup()
     {
-        return $this->belongsTo('App\Models\UserGroups','group_id','id');
+        return $this->belongsTo('App\Models\UserGroups','group_idsql','id');
     }
 
     /**

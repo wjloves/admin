@@ -43,6 +43,15 @@ class Course extends Model
     }
 
     /**
+     * 检测
+     * @return [type] [description]
+     */
+    static public function check()
+    {
+        return self::whereBetween('start_time',[$option['start_time'],date('Y-m-d H:i:s',strtotime($option['start_time'])+3600)])->first();
+    }
+
+    /**
      * 获取课程列表
      * @param  string $start_time [description]
      * @param  string $end_time   [description]
@@ -74,5 +83,14 @@ class Course extends Model
     public function userCourse()
     {
         return $this->hasMany('App\Models\UserCourse','course_id','id');
+    }
+
+    /**
+     * 关联课程类别表
+     * @return [type] [description]
+     */
+    public function courseType()
+    {
+        return $this->belongsTo('App\Models\CourseType','course_type_id','id');
     }
 }

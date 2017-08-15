@@ -116,7 +116,7 @@ class WechatController extends Controller
      */
     private function textMessage($content = '')
     {
-        $noticeText = "请输入关键字，如：‘今日课程’,‘我的会员’,‘今日老师’";
+        $noticeText = "请输入关键字，如：‘周一’,’周二‘,‘我的会员’,‘今日老师’";
         if(!$content){
             return  $noticeText;
         }
@@ -153,24 +153,12 @@ class WechatController extends Controller
         }
 
         //获取类型缓存
-        $textType = Redis::hget('textMessage',$content);
+        $textType = Redis::hget('CoursList',$content);
         if($textType){
-            switch ($textType) {
-                case 'todayCourses'://今日课程
-                    return $this->couresList(date('Y-m-d 00:00:00'),date('Y-m-d 23:59:59'));
-                    break;
-                case 'tomCourses'://明日课程
-                    $start_time = date('Y-m-d 00:00:00');
-                    $end_time = date('Y-m-d 23:59:59');
-                    return $this->couresList($start_time,$end_time);
-                case 'vip':
-                    # code...
-                    break;
-                default:
-                    return $noticeText;
-                    break;
-            }
+            return $textType;
         }
+
+        return '无课程信息，请输入其他时间';
 
     }
 

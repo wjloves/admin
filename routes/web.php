@@ -46,6 +46,13 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
         Route::any('/lock/{id}/{state}',['as'=>'user.lock','uses'=>'UserController@userLock']);
     });
 
+    Route::group(['prefix'=>'course'],function(){
+        Route::match(['get','post'],'/',['as'=>'course.list','uses'=>'CourseController@index']);
+        Route::match(['get','post'],'/store',['as'=>'course.store','uses'=>'CourseController@courseStore']);
+        Route::match(['get','post'],'/update',['as'=>'course.update','uses'=>'CourseController@courseUpdate']);
+        Route::any('/lock/{id}/{state}',['as'=>'course.lock','uses'=>'CourseController@courseDelete']);
+    });
+
 });
 
 
