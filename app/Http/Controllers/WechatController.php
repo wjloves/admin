@@ -61,6 +61,7 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
+        $message = $server->getMessage();
         $this->fromUserName = $message->FromUserName ? $message->FromUserName : '1';
 
         //获取用户状态
@@ -69,7 +70,7 @@ class WechatController extends Controller
         }
         // $this->maycUser = 'teacher';
         // return $this->textMessage('0950am 周日 jazz');
-       // $message = $server->getMessage();
+
 
        // Log::info($message);
         $server->setMessageHandler(function($message){
