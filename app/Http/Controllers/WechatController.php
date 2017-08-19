@@ -158,7 +158,7 @@ class WechatController extends Controller
         }else{
             //获取类型缓存
             if($textType = Redis::hget('autoReply',$content)){
-                $message = json_decode($message,true);
+                $message = json_decode($textType,true);
                 return $message['reply'];
             }else{
                 $message = Message::where('keywords',trim($content))->first();
