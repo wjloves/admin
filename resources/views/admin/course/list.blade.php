@@ -55,24 +55,24 @@
                                         </td>
                                         <td>{{ $course->id }}</td>
                                         <td>{{ $course->user->nick_name }}</td>
-                                        <td>{{ $course->courseType->full_name }}</td>
+                                        <td>{{ $course->courseType->full_name or '未知'}}</td>
                                         <td>{{ $course->userCourse->count() }}</td>
-                                        <td>{{ $course->course_time }}</td>
-                                        <td>{!! $course->status== 0 ? '<span class="label label-default">取消</span>':'<span class="label label-success">正常</span>' !!}</td>
+                                        <td>{{ $course->start_time }}</td>
+                                        <td>{!! $course->status== 7 ? '<span class="label label-default">取消</span>':'<span class="label label-success">正常</span>' !!}</td>
                                         <td>
-                                            @if ($course->status == 0)
+                                            @if ($course->status == 7)
                                                 <a class="btn btn-success user-lock"
                                                data-href="{{ route('course.lock',['id'=>$course->id,'status'=>8]) }}" data-title="启用">
                                                 <i class="fa fa-trash-o"></i> 启用</a>
                                             @else
                                                <a class="btn btn-warning user-lock"
-                                               data-href="{{ route('course.lock',['id'=>$course->id,'status'=>0]) }}" data-title="禁用">
+                                               data-href="{{ route('course.lock',['id'=>$course->id,'status'=>7]) }}" data-title="取消">
                                                 <i class="fa fa-trash-o"></i> 取消</a>
                                             @endif
                                             <a href="{{ route('course.update',['id'=>$course->id]) }}"
                                                class="btn btn-white "><i class="fa fa-pencil"></i> 编辑</a>
                                             <a class="btn btn-danger user-lock"
-                                               data-href="{{ route('course.lock',['id'=>$course->id,'status'=>7]) }}" data-title="删除">
+                                               data-href="{{ route('course.lock',['id'=>$course->id,'status'=>0]) }}" data-title="删除">
                                                 <i class="fa fa-trash-o"></i> 删除</a>
                                         </td>
                                     </tr>
@@ -80,6 +80,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {{ $courses->links() }}
                     </div><!-- panel-body -->
                 </div><!-- panel -->
 
@@ -99,7 +100,7 @@
         $(".user-lock").click(function () {
             var titleTyle = $(this).data('title');
             Cp.ajax.delete({
-                confirmTitle: '确定'+titleTyle+'用户?',
+                confirmTitle: '确定'+titleTyle+'课程?',
                 href: $(this).data('href'),
                 successTitle: '操作成功'
             });

@@ -16,15 +16,6 @@ class HelpService
 
     public function __construct(){}
 
-    /**
-     * 时间格式判断
-     * @param  string  $param  [description]
-     * @param  string  $format [description]
-     * @return boolean         [description]
-     */
-    static  public function isDatetime($param = '', $format = 'Y-m-d H:i:s')
-    {
-        return date($format, strtotime($param)) === $param;
-    }
+
 
 }

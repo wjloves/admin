@@ -34,12 +34,13 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $users = UserModel::with('userGroup')->with('vip')->where('status','!=',7)->get();
 
-        return view('admin.user.userslist',['users'=>$users]);
+        $users = UserModel::with('userGroup')->with('vip')->where('status','!=',0)->paginate(10);;
+
+        return view('admin.user.userslist',compact('users'));
     }
 
- /**
+    /**
      *  创建用户
      * @param Request $request
      * @return type html/json

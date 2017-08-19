@@ -32,7 +32,7 @@
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">教师昵称</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <input id="name" type="text" class="form-control" name="nick_name" value="{{ old('nick_name') }}" required autofocus>
                                 {{ $errors->first() }}
                                 @if ($errors->has('nick_name'))
@@ -47,8 +47,8 @@
                         <div class="form-group">
                             <label class="col-sm-4 control-label">课程类型</label>
 
-                            <div class="col-sm-3 select2-container select2">
-                                <select class="select2 select2-offscreen" name="course_id">
+                            <div class="col-sm-3">
+                                <select class="form-control mb15" name="course_id">
                                     @foreach($courseType as $k => $v)
                                         <option value="{{ $v->id }}">{{ $v->full_name }}</option>
                                     @endforeach
@@ -98,7 +98,6 @@
         $("#courseStore").click(function () {
             var form = $(".form-horizontal.form-bordered");
             var data = form.serializeArray();
-            console.log(data);return;
             Cp.ajax.request({
                 href: form.attr('action'),
                 successTitle: '操作成功',
@@ -112,6 +111,7 @@
                 $(this).val(datetext);
             }
         });
-        $('#timepicker1').timepicker();
+        $('#timepicker1').timepicker({showMeridian: false});
+
     </script>
 @endsection

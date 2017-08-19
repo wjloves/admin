@@ -47,15 +47,23 @@ class UserWechat extends Model
      * @param  [type] $from_user [description]
      * @return [type]            [description]
      */
-    static public function getTeachByFromUser($from_user)
+    public static function getTeachByFromUser($from_user)
     {
-        $user = self::where('user_group',self::teacherGroup)->where('from_user',$from_user)->first();
+        $user = self::where('group_id',self::teacherGroup)->where('from_user',$from_user)->first();
 
         if($user){
             return $user->id;
         }
-
         return false;
+    }
+
+    /**
+     * 通过FromUser获取用户信息
+     * @return [type] [description]
+     */
+    public static function getUserByFromUser()
+    {
+        return self::with('vip')->with('userCourse')->where('from_user',$from_user)->first();
     }
 
     /**
@@ -64,7 +72,7 @@ class UserWechat extends Model
      */
     public function userGroup()
     {
-        return $this->belongsTo('App\Models\UserGroups','group_idsql','id');
+        return $this->belongsTo('App\Models\UserGroups','group_id','id');
     }
 
     /**
@@ -74,5 +82,14 @@ class UserWechat extends Model
     public function vip()
     {
         return $this->belongsTo('App\Models\Vip','vip_id','id');
+    }
+
+    /**
+     * 关联报名表
+     * @return [type] [description]
+     */
+    public function userCourse()
+    {
+        return $this->hasMany('App\Models\UserCourse','id','user_id');
     }
 }

@@ -21,6 +21,8 @@ class WechatController extends Controller
 
     public $userId = '';
 
+    public $fromUserName ='';
+
     public $maycUser = 'user';
     /**
      * 基本验证
@@ -29,11 +31,11 @@ class WechatController extends Controller
     {
         //检测access_token 过期自动获取并缓存
         if(!Redis::get('wechat_access_token')){
-            $client = new Client();
-            $res = $client->request('GET', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx0f131099096c80d1&secret=4e01f36d1569607d4d301f68a8d07a1a'
-            );
-            $access_token =  json_decode($res->getBody(),true);
-            Redis::set('wechat_access_token',$access_token['access_token']);
+            // $client = new Client();
+            // $res = $client->request('GET', 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx0f131099096c80d1&secret=4e01f36d1569607d4d301f68a8d07a1a'
+            // );
+            // $access_token =  json_decode($res->getBody(),true);
+            // Redis::set('wechat_access_token',$access_token['access_token']);
         }
     }
 
@@ -59,14 +61,14 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
-       // $this->userId = $message->FromUserName;
+        $this->fromUserName = '1312321';//$message->FromUserName ? $message->FromUserName : '';
 
         //获取用户状态
-        if($this->userId = UserWechat::getTeachByFromUser($this->userId)){
+        if($this->userId = UserWechat::getTeachByFromUser($this->fromUserName)){
             $this->maycUser = 'teacher';
         }
         $this->maycUser = 'teacher';
-        return $this->textMessage('2017-11-12 06:00:00/45m');
+        return $this->textMessage('0950am 周日 jazz');
        // $message = $server->getMessage();
 
        // Log::info($message);
@@ -123,42 +125,40 @@ class WechatController extends Controller
 
         //检测是否是老师并且是否是上报课程
         if($this->maycUser == 'teacher'){
-            $temp = explode('/', $content);
-            if(count($temp) >1 && HelpService::isDatetime($temp[0])){
-                if(is_numeric($temp[1])){
-                    $minute = $temp[1];
-                }else{
-                    $unit = substr($temp[1], -1,1);
-                    switch ($unit) {
-                        case 'm':
-                            $minute = $temp[1];
-                            break;
-                        case 'h':
-                            $minute = $temp[1]*60;
-                        default:
-                            return '您好，时间单位输入有误，请输入45m（45分钟）或2h（两小时）';
-                            break;
+            $temp = explode(' ', strtoupper($content));
+            if(count($temp) >2){
+                //检查录入信息格式是否正确
+                if($courseTime =  isDatetime($temp)){
+                    //判断录入类型是否存在
+                    if(!$courseType = CourseType::checkByAlias($temp[2])){
+                        return '暂未查询到课程类型，请重新录入';
                     }
+
+                    $option = [
+                            'course_time' => $courseTime,
+                            'start_time'  => $courseTime,
+                            'end_time'    => date('Y-m-d H:i:s',strtotime($courseTime)+3600),
+                            'user_id'     => $this->userId,
+                            'course_id'   => $courseType->id
+                    ];
+
+                    return $this->addCourse($option);
                 }
-                $option = [
-                        'course_time' => $temp[0],
-                        'start_time'  => $temp[0],
-                        'end_time'    => date('Y-m-d H:i:s',strtotime($temp[0])+$minute*60),
-                        'user_id'     => $this->userId
-                ];
-
-                return $this->addCourse($option);
-
             }
         }
 
-        //获取类型缓存
-        $textType = Redis::hget('CoursList',$content);
-        if($textType){
-            return $textType;
+        if($content == trim('我的会员')){
+            $user   = UserWechat::getUserByFromUser($this->userId);
+            $notice = "尊贵的".$user->vip->name."会员,您好!\n 您的会员信息如下:\n 剩余次数:".$user->times."\n 已使用次数:".$user->userCourse->count();
+            return $notice;
+        }else{
+            //获取类型缓存
+            $textType = Redis::hget('autoReply',$content);
+            if($textType){
+                return $textType;
+            }
+             return $noticeText;
         }
-
-        return '无课程信息，请输入其他时间';
 
     }
 
@@ -178,8 +178,12 @@ class WechatController extends Controller
      */
     private function addCourse($option){
 
+        //检查和创建
         $state = Course::createAndCheck($option);
         if($state){
+            //存入缓存
+            $redisKey = getWeek($option['start_time']);
+            Redis::hset($redisKey,$option['start_time']);
             return response('恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员');
            // return '恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员';
         }else{

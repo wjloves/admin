@@ -58,25 +58,25 @@
                                         <td>{{ $user->id }}</td>
                                         <td>{{ $user->nick_name }}</td>
                                         <td>{{ $user->wechat }}</td>
-                                        <td>{{ $user->vip->name }}</td>
-                                        <td>{{ $user->times }}</td>
+                                        <td>{{ $user->vip->name or '普通会员' }}</td>
+                                        <td>{{ $user->times or '0' }}</td>
                                         <td>{{ $user->ex_time }}</td>
-                                        <td>{{ $user->userGroup->group_name }}</td>
-                                        <td>{!! $user->status== 0 ? '<span class="label label-default">禁用</span>':'<span class="label label-success">正常</span>' !!}</td>
+                                        <td>{{ $user->userGroup->group_name or '学员' }}</td>
+                                        <td>{!! $user->status== 7 ? '<span class="label label-default">禁用</span>':'<span class="label label-success">正常</span>' !!}</td>
                                         <td>
-                                            @if ($user->status == 0)
+                                            @if ($user->status == 7)
                                                 <a class="btn btn-success user-lock"
                                                data-href="{{ route('user.lock',['id'=>$user->id,'status'=>8]) }}" data-title="启用">
                                                 <i class="fa fa-trash-o"></i> 启用</a>
                                             @else
                                                <a class="btn btn-warning user-lock"
-                                               data-href="{{ route('user.lock',['id'=>$user->id,'status'=>0]) }}" data-title="禁用">
+                                               data-href="{{ route('user.lock',['id'=>$user->id,'status'=>7]) }}" data-title="禁用">
                                                 <i class="fa fa-trash-o"></i> 禁用</a>
                                             @endif
                                             <a href="{{ route('user.update',['id'=>$user->id]) }}"
                                                class="btn btn-white "><i class="fa fa-pencil"></i> 编辑</a>
                                             <a class="btn btn-danger user-lock"
-                                               data-href="{{ route('user.lock',['id'=>$user->id,'status'=>7]) }}" data-title="删除">
+                                               data-href="{{ route('user.lock',['id'=>$user->id,'status'=>0]) }}" data-title="删除">
                                                 <i class="fa fa-trash-o"></i> 删除</a>
                                         </td>
                                     </tr>
@@ -84,6 +84,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {{ $users->links() }}
                     </div><!-- panel-body -->
                 </div><!-- panel -->
 

@@ -160,3 +160,10 @@ var Cp = window.Cp || {};
 
     };
 })(Cp);
+
+
+//检测输入长度
+function maxLengthCheck(object){
+if (object.value.length > object.maxLength)
+  object.value = object.value.slice(0, object.maxLength);
+}

@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
            // \App\Http\Middleware\AuthMiddleware::class,
         ],
 
@@ -62,6 +63,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \App\Http\Middleware\AuthenticateAdmin::class,
         'wechat.oauth' => \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
-        'wechat' => \App\Http\Middleware\WechatMiddleware::class
+        'wechat' => \App\Http\Middleware\WechatMiddleware::class,
+        'menu' => \App\Http\Middleware\AuthMenu::class,
     ];
 }

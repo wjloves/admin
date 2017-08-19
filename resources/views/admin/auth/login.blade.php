@@ -15,13 +15,13 @@
                 <h5><strong>欢迎您！</strong></h5>
 
                 <div class="mb20"></div>
-                <strong>Not a member? <a href="{{ url('/admin/register') }}">Sign Up</a></strong>
+                <strong>Not a member? <a href="{{ url('admin/register') }}">Sign Up</a></strong>
             </div><!-- signin0-info -->
 
         </div><!-- col-sm-7 -->
 
         <div class="col-md-5">
-            <form method="post" action="{{ url('/admin/login') }}">
+            <form method="post" action="{{ url('admin/login') }}">
                 @foreach($errors->all() as $error)
                     <li class="list-group-item list-group-item-danger">{{$error}}</li>
                 @endforeach

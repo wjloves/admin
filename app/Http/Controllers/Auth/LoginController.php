@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    /*
+   /*
     |--------------------------------------------------------------------------
     | Login Controller
     |--------------------------------------------------------------------------
@@ -25,7 +25,11 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/admin/home';
+
+    protected $guard = 'admin';
+
+    protected $loginView = 'admin.auth.login';
 
     /**
      * Create a new controller instance.
@@ -34,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:admin')->except('logout');
     }
 
     /**
@@ -43,5 +47,34 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+    /**
+     * 重写登录视图页面
+     * @return type
+     */
+    public function showLoginForm()
+    {
+        return view('admin.auth.login');
+    }
+
+     /**
+     * 自定义认证驱动
+     */
+    protected function guard()
+    {
+        return auth()->guard('admin');
+    }
+
+
+    public function logout(Request $request)
+    {
+        $this->guard('admin')->logout();
+
+        $request->session()->flush();
+
+        $request->session()->regenerate();
+
+        return redirect('/admin/login');
     }
 }
