@@ -34,11 +34,11 @@ class Course extends Model
      */
     static public function createAndCheck($option = [])
     {
-        $courseCheck = self::whereBetween('start_time',[$option['start_time'],$option['end_time']])->first();
+        $courseCheck = self::where('status','!=',0)->whereBetween('start_time',[$option['start_time'],$option['end_time']])->first();
         if($courseCheck){
             return false;
         }else{
-            return self::firstOrCreate($option);
+            return self::create($option);
         }
     }
 

@@ -54,7 +54,7 @@
                                             </div>
                                         </td>
                                         <td>{{ $course->id }}</td>
-                                        <td>{{ $course->user->nick_name }}</td>
+                                        <td>{{ $course->user->nick_name or ''}}</td>
                                         <td>{{ $course->courseType->full_name or '未知'}}</td>
                                         <td>{{ $course->userCourse->count() }}</td>
                                         <td>{{ $course->start_time }}</td>

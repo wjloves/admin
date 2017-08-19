@@ -12,6 +12,7 @@ use App\Services\Help\HelpService;
 use App\Models\UserWechat;
 use App\Models\Course;
 use App\Models\Message;
+use App\Models\CourseType;
 
 class WechatController extends Controller
 {
@@ -20,7 +21,7 @@ class WechatController extends Controller
 
     const EncodingAESKey = 'cNhGgZdfqvE9ZzCuq42J2ZAizy7dieEdtbBZSFgqEcd';
 
-    public $userId = '';
+    public $userId = 0;
 
     public $fromUserName ='';
 
@@ -62,6 +63,8 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
+        // $this->maycUser = 'teacher';
+        // return $this->textMessage('0950am 周日 jazz');
         $message = $server->getMessage();
         Log::info($message['FromUserName']);
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
@@ -70,8 +73,7 @@ class WechatController extends Controller
         if($this->userId = UserWechat::getTeachByFromUser($this->fromUserName)){
             $this->maycUser = 'teacher';
         }
-        // $this->maycUser = 'teacher';
-        // return $this->textMessage('0950am 周日 jazz');
+
 
 
        // Log::info($message);
@@ -193,7 +195,7 @@ class WechatController extends Controller
         if($state){
             //存入缓存
             $redisKey = getWeek($option['start_time']);
-            Redis::hset($redisKey,$option['start_time']);
+           // Redis::hset($redisKey,$option['start_time']);
            // return response('恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员');
             return '恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员';
         }else{
