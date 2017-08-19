@@ -11,6 +11,7 @@ use EasyWeChat\Foundation\Application;
 use App\Services\Help\HelpService;
 use App\Models\UserWechat;
 use App\Models\Course;
+use App\Models\Message;
 
 class WechatController extends Controller
 {
@@ -156,10 +157,15 @@ class WechatController extends Controller
             return $notice;
         }else{
             //获取类型缓存
-            $textType = Redis::hget('autoReply',$content);
-            if($textType){
+            if($textType = Redis::hget('autoReply',$content)){
                 return $textType;
+            }else{
+                $message = Message::where('keywords',trim($content))->first();
+                if($message){
+                    return $message->reply;
+                }
             }
+
              return $noticeText;
         }
 
