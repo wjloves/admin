@@ -93,7 +93,11 @@ class MessageController extends BaseController
             //过滤数组
             unset($data['_token']);
             unset($data['_wysihtml5_mode']);
-            $status = Message::where('id', $id)->update($data);
+            $option = [
+                'keywords'=>$data['keywords'],
+                'reply'   =>$data['reply']
+            ];
+            $status = Message::where('id', $id)->update($option);
 
             if( $status )
             {
@@ -127,7 +131,7 @@ class MessageController extends BaseController
         $message = Message::find($id);
         if( $status )
         {
-            Redis::hdel('autoReply',$message->keywords));
+            Redis::hdel('autoReply',$message->keywords);
             return response()->json(['errorCode' => 00000, 'message' => '操作成功']);
         }
 

@@ -46,9 +46,10 @@ class AuthMenu
             }
         }
 
+        $perms = [];
         try{
             //2.获取用户的权限列表;
-            $userId=  $request->user('admin')->id ? $request->user('admin')->id : Auth::guard('admin')->id();
+            $userId=  $request->user('admin')->id ? $request->user('admin')->id : Auth::guard('admin')->id;
             $user = \App\Models\User::find($userId);
             $perms = $user->getPerms($user->id);
 
@@ -59,6 +60,7 @@ class AuthMenu
         //3.检查用户是否具有访问权限
         $callback = $request->getRouteResolver();
         $router = $callback();//当前路由
+
 
         $auth = false;
         foreach ($perms as $perm) {

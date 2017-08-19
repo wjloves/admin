@@ -1,43 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : 开发
-Source Server Version : 50622
-Source Host           : 192.168.248.128:3366
-Source Database       : admindance
-
-Target Server Type    : MYSQL
-Target Server Version : 50622
-File Encoding         : 65001
-
-Date: 2017-08-19 14:38:00
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for mayc_admin_users
--- ----------------------------
-DROP TABLE IF EXISTS `mayc_admin_users`;
-CREATE TABLE `mayc_admin_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL COMMENT '用户名',
-  `password` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `role_id` int(11) DEFAULT NULL COMMENT '角色表ID',
-  `register_ip` varchar(32) DEFAULT NULL,
-  `salt` char(6) NOT NULL,
-  `status` tinyint(2) NOT NULL COMMENT '0 删除  8 正常',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `remember_token` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of mayc_admin_users
--- ----------------------------
-INSERT INTO `mayc_admin_users` VALUES ('1', 'admin', 'ce772c482818d12de8c82311b7d6c0064e3c2ee1', null, '1', null, 'L1iBFN', '1', '2017-08-14 23:07:56', '2017-08-14 23:07:56', '35MA6MGZRLLsg4LJvOAiOnVBHYJZ0MXMe28tt5bA1u4AOlILzqBvnFsyS8VJ');
 
 -- ----------------------------
 -- Table structure for mayc_course_type
@@ -130,8 +91,8 @@ CREATE TABLE `mayc_messages` (
   `reply` text COMMENT '回复内容',
   `admin_id` int(11) DEFAULT NULL COMMENT '管理员ID',
   `status` tinyint(3) DEFAULT '8' COMMENT '状态 0 删除  7 禁用 8 正常',
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `created_at` timestamp NULL DEFAULT NULL  COMMENT '创建时间',
+  `updated_at` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='自动回复表';
 
@@ -150,11 +111,7 @@ DROP TABLE IF EXISTS `mayc_permission_role`;
 CREATE TABLE `mayc_permission_role` (
   `permission_id` int(10) unsigned NOT NULL,
   `role_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`permission_id`,`role_id`),
-  KEY `permission_role_permission_id_index` (`permission_id`),
-  KEY `permission_role_role_id_index` (`role_id`),
-  CONSTRAINT `mayc_permission_role_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `qvod_permissions` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `mayc_permission_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `qvod_roles` (`id`) ON DELETE CASCADE
+  PRIMARY KEY (`permission_id`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
