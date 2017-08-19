@@ -7,6 +7,8 @@ use App\Models\UserWechat as UserModel;
 use Auth;
 use Validator;
 use Illuminate\Support\Str;
+use App\Models\UserGroups;
+use App\Models\Vip;
 
 /**
  *  用户管理
@@ -32,12 +34,13 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $users = UserModel::with('userGroup')->with('vip')->where('status','!=',7)->get();
 
-        return view('admin.user.userslist',['users'=>$users]);
+        $users = UserModel::with('userGroup')->with('vip')->where('status','!=',0)->paginate(10);;
+
+        return view('admin.user.userslist',compact('users'));
     }
 
- /**
+    /**
      *  创建用户
      * @param Request $request
      * @return type html/json
@@ -70,8 +73,9 @@ class UserController extends BaseController
 
             return response()->json(array('errorCode' => 60002, 'message' => '创建失败'));
         }
-
-        return view('admin.user.userstore',['cardType'=>self::cardType]);
+        $vipType =  Vip::get();
+        $userGroups = UserGroups::get();
+        return view('admin.user.userstore',compact('vipType','userGroups'));
     }
 
     /**

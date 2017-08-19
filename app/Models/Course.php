@@ -24,7 +24,7 @@ class Course extends Model
     *  可批量修改字段
     */
     protected $fillable = [
-        'user_id', 'course_time', 'start_time', 'end_time'
+        'user_id', 'course_time', 'start_time', 'end_time','course_id'
     ];
 
     /**
@@ -38,8 +38,17 @@ class Course extends Model
         if($courseCheck){
             return false;
         }else{
-            return self::create($option) ? true : false;
+            return self::firstOrCreate($option);
         }
+    }
+
+    /**
+     * 检测
+     * @return [type] [description]
+     */
+    static public function check($start_time)
+    {
+        return self::whereBetween('start_time',[$start_time,date('Y-m-d H:i:s',strtotime($start_time)+3600)])->first();
     }
 
     /**
@@ -50,7 +59,7 @@ class Course extends Model
      */
     static public function getCourseList($start_time='',$end_time='')
     {
-        $list = self::with('user')->with('userCourse')->whereBetween('start_time',[$start_time,$end_time])->get();
+        $list = self::with('user')->with('userCourse')->whereBetween('start_time',[$start_time,$end_time])->paginate(10);
         $content = '课程表';
         foreach ($list as $key => $value) {
             $content .= '开课时间:'.$value->start_time.',老师：'.$value->user->nick_name.',已报名：'.$value->userCourse->count().'人&#x0A;';
@@ -74,5 +83,14 @@ class Course extends Model
     public function userCourse()
     {
         return $this->hasMany('App\Models\UserCourse','course_id','id');
+    }
+
+    /**
+     * 关联课程类别表
+     * @return [type] [description]
+     */
+    public function courseType()
+    {
+        return $this->belongsTo('App\Models\CourseType','course_id','id');
     }
 }

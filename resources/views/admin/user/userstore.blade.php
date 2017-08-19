@@ -29,7 +29,7 @@
 
                     <form class="form-horizontal form-bordered" action="{{ route('user.store') }}" method="POST">
                     {{ csrf_field() }}
-                    <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">用户名</label>
 
                             <div class="col-md-6">
@@ -43,15 +43,29 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">昵称</label>
+
+                            <div class="col-md-6">
+                                <input id="nick_name" type="text" class="form-control" name="nick_name" value="{{ old('username') }}" required autofocus>
+                                {{ $errors->first() }}
+                                @if ($errors->has('nick_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('nick_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">微信ID</label>
 
                             <div class="col-md-6">
-                                <input id="wechatID" type="text" class="form-control" name="wechatID" value="{{ old('wechatID') }}" required>
+                                <input id="wechatID" type="text" class="form-control" name="wechat" value="{{ old('wechatID') }}" required>
 
-                                @if ($errors->has('wechatID'))
+                                @if ($errors->has('wechat'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('wechatID') }}</strong>
+                                        <strong>{{ $errors->first('wechat') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -61,9 +75,20 @@
                             <label class="col-sm-4 control-label">会员类型</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control input" name="card_type">
-                                    @foreach($cardType as $k => $v)
-                                        <option value="{{ $k }}">{{ $v }}</option>
+                                <select class="form-control input" name="vip_id">
+                                    @foreach($vipType as $k => $v)
+                                        <option value="{{ $v->id }}">{{ $v->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">用户组</label>
+
+                            <div class="col-sm-3">
+                                <select class="form-control input" name="group_id">
+                                    @foreach($userGroups as $k => $v)
+                                        <option value="{{ $v->id }}">{{ $v->group_name }}</option>
                                     @endforeach
                                 </select>
                             </div>

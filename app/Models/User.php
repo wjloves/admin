@@ -9,6 +9,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const rootId = 1;
+
+    protected $table = 'admin_users';
     /**
      * The attributes that are mass assignable.
      *
@@ -37,11 +40,38 @@ class User extends Authenticatable
     }
 
     /**
-     * 关联奖金表
-     * @return type
+     * 获取菜单
+     * @param  [type] $userid [description]
+     * @return [type]         [description]
      */
-    public function prize()
-    {
-       // return $this->hasOne('App\Models\Prize');
+    public function getPerms($userid){
+        if(self::rootId == $this->id){//超级管理员全部权限
+            $perms = \App\Models\Permission::where('is_delete',0)->get();
+        }else{
+            $perms = $this->role->perms;
+        }
+        return $perms;
+    }
+
+    /**
+     * 获取表单
+     * @return [type] [description]
+     */
+    public function getMenuPerms(){
+        if(self::rootId == $this->id){//超级管理员全部权限
+            $perms = \App\Models\Permission::where('is_delete',0)->where('method','GET')->get();
+        }else{
+            $perms = $this->role->perms;
+        }
+        return $perms;
+    }
+
+
+    /**
+     * 关联角色表
+     * @return [type] [description]
+     */
+    public function role(){
+        return $this->BelongsTo('App\Models\Role','role_id','id');
     }
 }
