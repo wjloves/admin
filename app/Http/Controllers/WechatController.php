@@ -61,14 +61,14 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
-        $this->fromUserName = '1312321';//$message->FromUserName ? $message->FromUserName : '';
+        $this->fromUserName = $message->FromUserName ? $message->FromUserName : '1';
 
         //获取用户状态
         if($this->userId = UserWechat::getTeachByFromUser($this->fromUserName)){
             $this->maycUser = 'teacher';
         }
-        $this->maycUser = 'teacher';
-        return $this->textMessage('0950am 周日 jazz');
+        // $this->maycUser = 'teacher';
+        // return $this->textMessage('0950am 周日 jazz');
        // $message = $server->getMessage();
 
        // Log::info($message);
@@ -184,11 +184,11 @@ class WechatController extends Controller
             //存入缓存
             $redisKey = getWeek($option['start_time']);
             Redis::hset($redisKey,$option['start_time']);
-            return response('恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员');
-           // return '恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员';
+           // return response('恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员');
+            return '恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员';
         }else{
-            return response('课程时间冲突或录入失败，请输入’今日课程‘查询本日课程表');
-            //return '课程时间冲突或录入失败，请输入’今日课程‘查询本日课程表';
+           // return response('课程时间冲突或录入失败，请输入’今日课程‘查询本日课程表');
+            return '课程时间冲突或录入失败，请输入’今日课程‘查询本日课程表';
         }
     }
 }
