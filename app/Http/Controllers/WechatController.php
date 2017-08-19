@@ -62,8 +62,8 @@ class WechatController extends Controller
         $server = $wechat->server;
 
         $message = $server->getMessage();
-        Log::info($message);
-        $this->fromUserName = $message->FromUserName ? $message->FromUserName : '1';
+        Log::info($message['FromUserName']);
+        $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
 
         //获取用户状态
         if($this->userId = UserWechat::getTeachByFromUser($this->fromUserName)){
@@ -84,7 +84,7 @@ class WechatController extends Controller
                     return '收到事件消息';
                     break;
                 case 'text':
-                    return $this->textMessage($message->Content);
+                    return $this->textMessage($message['Content']);
                     break;
                 case 'image':
                     return '收到图片消息';
