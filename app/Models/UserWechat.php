@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserWechat extends Model
 {
-    const teacherGroup = 1;
+    const teacherGroup = 2;
 
     /**
     *   关联表名称
