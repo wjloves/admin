@@ -74,7 +74,8 @@ class WechatController extends Controller
        // Log::info($message);
         $server->setMessageHandler(function($message){
             //$user = $userService->get($message->FromUserName);
-            //Log::info($user);
+            Log::info($user);
+            Log::info($message);
           //  return "您好！欢迎关注我!".$user['nickname'];
             switch ($message->MsgType) {
                 case 'event':
