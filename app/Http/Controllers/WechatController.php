@@ -22,7 +22,7 @@ class WechatController extends Controller
 
     const EncodingAESKey = 'cNhGgZdfqvE9ZzCuq42J2ZAizy7dieEdtbBZSFgqEcd';
 
-    public $userId = 0;
+    public $userId = 1;
 
     public $fromUserName ='';
 
@@ -64,8 +64,8 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
-        //$this->maycUser = 'teacher';
-        //return $this->textMessage('0950am 周日 jazz');
+      //  $this->maycUser = 'teacher';
+      //  return $this->textMessage('周一');
         $message = $server->getMessage();
         Log::info($message['FromUserName']);
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
@@ -75,12 +75,7 @@ class WechatController extends Controller
             $this->maycUser = 'teacher';
         }
 
-       // Log::info($message);
         $server->setMessageHandler(function($message){
-            //$user = $userService->get($message->FromUserName);
-        //    Log::info($user);
-        //    Log::info($message);
-          //  return "您好！欢迎关注我!".$user['nickname'];
             switch ($message->MsgType) {
                 case 'event':
                     return '收到事件消息';
@@ -123,14 +118,12 @@ class WechatController extends Controller
      */
     private function textMessage($content = '')
     {
-        $noticeText = "请输入关键字，如：‘周一’,’周二‘,‘我的会员’,‘今日老师’";
+        $noticeText = Redis::get('noticeMessage');
+        $noticeText = $noticeText ? $noticeText : "请输入关键字，如：‘周一’,’周二‘,‘我的会员’,‘今日老师’";
         if(!$content){
             return  $noticeText;
         }
-        $title = "周一课程表";
 
-        $news1 = new News(["title" =>$title,"description" =>"【1】新闻 天气 空气 股票 彩票 星座\n"."【2】快递 人品 算命 解梦 附近 苹果\n"."【3】公交 火车 汽车 航班 路况 违章\n"."【4】翻译 百科 双语 听力 成语 历史\n"."【5】团购 充值 菜谱 贺卡 景点 冬吴\n"."【6】情侣相 夫妻相 亲子相 女人味\n"."【7】相册 游戏 笑话 答题 点歌 树洞\n"."【8】微社区 四六级 华强北 世界杯\n\n". "更多精彩，即将亮相，敬请期待！\n\n"."回复对应数字查看使用方法\n发送 0 返回本菜单"]);
-        return $news1;
         //检测是否是老师并且是否是上报课程
         if($this->maycUser == 'teacher'){
             $temp = explode(' ', strtoupper($content));
@@ -140,6 +133,10 @@ class WechatController extends Controller
                     //判断录入类型是否存在
                     if(!$courseType = CourseType::checkByAlias($temp[2])){
                         return '暂未查询到课程类型，请重新录入';
+                    }
+
+                    if(strtotime($courseTime) < time()){
+                        return '时间错误，请重新输入';
                     }
 
                     $option = [
@@ -159,8 +156,45 @@ class WechatController extends Controller
             $user   = UserWechat::getUserByFromUser($this->userId);
             $notice = "尊贵的".$user->vip->name."会员,您好!\n 您的会员信息如下:\n 剩余次数:".$user->times."\n 已使用次数:".$user->userCourse->count();
             return $notice;
+        }
+
+        $notice = $this->replyByType($content);
+        return $notice ? $notice : $noticeText;
+
+    }
+
+    /**
+     * 通过类型回复消息
+     * @param  [type] $content [description]
+     * @return [type]          [description]
+     */
+    private function replyByType($content)
+    {
+        $toweeks = ['周日','周一','周二','周三','周四','周五','周六',];
+        if(in_array($content, $toweeks)){
+            $title = $content."课程表";
+            $description = '';
+            $week = getWeekToEn($content);
+            $courses = Redis::hget('courses',$week);
+            if(!$courses){
+                $searchTime = isDatetime('0000am '.$content);
+                $searchTime = date('Y-m-d',$searchTime);
+                $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
+                //放入缓存
+                Redis::hset('courses',$week,json_encode($courses));
+            }else{
+                $courses  = json_decode($courses,true);
+            }
+
+            $description .= "编号       时间        课程         老师\n";
+            foreach ($courses as $key => $value) {
+                 $description .= "  ".$value['id']."      ".date('hi A',strtotime($value['start_time']))."     ".$value['course']."    (".$value['teacher'].") \n";
+            }
+            $description .= "注意事项：\n"."1、期卡学员每月保证来三次，不满三次按三次计算（确保进度）\n"."2、请假需提前三小时通知 \n"."NG、请各位同学提前做好安排😆 \n\n"."回复：“报名”+课程编号进行报名";
+            $news = new News(["title" =>$title,"description" =>$description]);
+            return $news;
+
         }else{
-            //获取类型缓存
             if($textType = Redis::hget('autoReply',$content)){
                 $message = json_decode($textType,true);
                 return $message['reply'];
@@ -170,11 +204,11 @@ class WechatController extends Controller
                     return $message->reply;
                 }
             }
-
-             return $noticeText;
         }
 
+        return false;
     }
+
 
     /**
      * 获取今日课程表
@@ -196,13 +230,18 @@ class WechatController extends Controller
         $state = Course::createAndCheck($option);
         if($state){
             //存入缓存
-            $redisKey = getWeek($option['start_time']);
-           // Redis::hset($redisKey,$option['start_time']);
+            $week = getWeek($option['start_time']);
+            $searchTime = date('Y-m-d',strtotime($option['start_time']));
+
+            $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
+
+            //放入缓存
+            Redis::hset('courses',getWeekToEn($week),json_encode($courses));
            // return response('恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员');
             return '恭喜，课程添加成功，课程开始时间:'.$option['start_time'].';请提前10分钟到教室，并注意短信提示课程报名人员';
         }else{
            // return response('课程时间冲突或录入失败，请输入’今日课程‘查询本日课程表');
-            return '课程时间冲突或录入失败，请输入’今日课程‘查询本日课程表';
+            return '课程时间冲突或录入失败，请输入日期如：“周一”，查询课程表';
         }
     }
 }

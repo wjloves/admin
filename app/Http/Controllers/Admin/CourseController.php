@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redis;
 use App\Models\UserWechat as UserModel;
 use Illuminate\Support\Str;
 use App\Models\UserGroups;
@@ -74,6 +75,11 @@ class CourseController extends BaseController
 
             if( $status )
             {
+                $week = getWeek($option['start_time']);
+                $searchTime = date('Y-m-d',strtotime($option['start_time']));
+                $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
+                //放入缓存
+                Redis::hset('courses',getWeekToEn($week),json_encode($courses));
                 return response()->json(array('errorCode' => 00000, 'message' => '创建成功', 'route' => route('course.list')));
             }
 

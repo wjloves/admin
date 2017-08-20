@@ -59,12 +59,15 @@ class Course extends Model
      */
     static public function getCourseList($start_time='',$end_time='')
     {
-        $list = self::with('user')->with('userCourse')->whereBetween('start_time',[$start_time,$end_time])->paginate(10);
-        $content = '课程表';
+        $list = self::with('user')->with('courseType')->whereBetween('start_time',[$start_time,$end_time])->get();
+        $courses = [];
         foreach ($list as $key => $value) {
-            $content .= '开课时间:'.$value->start_time.',老师：'.$value->user->nick_name.',已报名：'.$value->userCourse->count().'人&#x0A;';
+            $courses[$key]['id']         = $value->id;
+            $courses[$key]['start_time'] = $value->start_time;
+            $courses[$key]['teacher']    = $value->user->nick_name;
+            $courses[$key]['course']     = $value->courseType->full_name;
         }
-        return $content;
+        return $courses;
     }
 
     /**

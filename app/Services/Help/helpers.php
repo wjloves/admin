@@ -53,7 +53,6 @@ if (! function_exists('isDatetime')) {
     function isDatetime($param = '', $format = 'Y-m-d H:i:s'){
         $weeks =['周一'=>1,'周二'=>2,'周三'=>3,'周四'=>4,'周五'=>5,'周六'=>6,'周日'=>7];
 
-
         $todayWeek = getWeek();
         $today = $weeks[$todayWeek];
         $teachDay = $weeks[$param[1]];
@@ -62,10 +61,14 @@ if (! function_exists('isDatetime')) {
         $days = abs($today - $teachDay);
 
         //周六周日录入周一周二课程时 区别判断
-        if(in_array($todayWeek, ['周六','周日']) && $days > 2){
+        if(in_array($todayWeek, ['周六','周日']) && $days > 2 ){
             $days = 2;
         }elseif($days>2){
             return false;
+        }
+
+        if($today == 7 && $teachDay == 1){
+            $days = 1;
         }
 
         $amPm = substr($param[0],-2,2);
@@ -92,6 +95,17 @@ if(! function_exists('getWeek'))
         }
 
         return $toweeks[date('w',strtotime($times))];
+    }
+
+}
+
+
+if(! function_exists('getWeekToEn'))
+{
+    function getWeekToEn($week = '')
+    {
+        $toweeks = ['周日'=>'sun','周一'=>'mon','周二'=>'tue','周三'=>'wed','周四'=>'thur','周五'=>'fir','周六'=>'sat'];
+        return isset($toweeks[$week]) ? $toweeks[$week] : false;
     }
 
 }
