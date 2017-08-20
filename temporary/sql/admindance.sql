@@ -10,8 +10,8 @@ CREATE TABLE `mayc_course_type` (
   `alias_name` varchar(255) DEFAULT NULL COMMENT '别名，简称',
   `admin_id` int(11) DEFAULT NULL COMMENT '管理员ID',
   `status` tinyint(3) DEFAULT '8' COMMENT '状态  0  删除   8 正常',
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NULL DEFAULT NULL ,
+  `updated_at` timestamp NULL DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='课程分类表';
 

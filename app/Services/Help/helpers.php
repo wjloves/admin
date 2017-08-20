@@ -90,6 +90,7 @@ if(! function_exists('getWeek'))
         if(!$times){
             $times = date('Y-m-d');
         }
+
         return $toweeks[date('w',strtotime($times))];
     }
 
