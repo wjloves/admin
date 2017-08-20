@@ -64,8 +64,8 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
-      // $this->maycUser = 'teacher';
-      //  return $this->textMessage('周一');
+         $this->maycUser = 'teacher';
+        return $this->textMessage('周一');
         $message = $server->getMessage();
         Log::info($message['FromUserName']);
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
@@ -179,6 +179,7 @@ class WechatController extends Controller
             if(!$courses){
                 $temp = '0000am '.$content;
                 $searchTime = isDatetime(explode(' ', strtoupper($temp)));
+                Log::info($searchTime);
                 $searchTime = date('Y-m-d',$searchTime);
                 $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
                 //放入缓存
