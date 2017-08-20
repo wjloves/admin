@@ -13,7 +13,7 @@ use App\Models\UserWechat;
 use App\Models\Course;
 use App\Models\Message;
 use App\Models\CourseType;
-use EasyWeChat\Message\text;
+use EasyWeChat\Message\News;
 
 class WechatController extends Controller
 {
