@@ -64,8 +64,8 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
-      //  $this->maycUser = 'teacher';
-      //  return $this->textMessage('周一');
+       $this->maycUser = 'teacher';
+        return $this->textMessage('周一');
         $message = $server->getMessage();
         Log::info($message['FromUserName']);
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
@@ -188,7 +188,7 @@ class WechatController extends Controller
 
             $description .= "编号       时间        课程         老师\n";
             foreach ($courses as $key => $value) {
-                 $description .= "  ".$value['id']."      ".date('hi A',strtotime($value['start_time']))."     ".$value['course']."    (".$value['teacher'].") \n";
+                 $description .= "  ".$value['id']."      ".date('h:iA',strtotime($value['start_time']))."     ".$value['course']."    (".$value['teacher'].") \n";
             }
             $description .= "注意事项：\n"."1、期卡学员每月保证来三次，不满三次按三次计算（确保进度）\n"."2、请假需提前三小时通知 \n"."NG、请各位同学提前做好安排😆 \n\n"."回复：“报名”+课程编号进行报名";
             $news = new News(["title" =>$title,"description" =>$description]);
