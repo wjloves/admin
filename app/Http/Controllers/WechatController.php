@@ -128,7 +128,6 @@ class WechatController extends Controller
             return  $noticeText;
         }
         $news = new News(["title" =>"欢迎关注多多工作室","description" =>"", "image" =>"", "url" =>""]);
-        Log::info($contents);
         return $news;
         //检测是否是老师并且是否是上报课程
         if($this->maycUser == 'teacher'){
