@@ -64,8 +64,8 @@ class WechatController extends Controller
         $userService = $wechat->user;
         $server = $wechat->server;
 
-         $this->maycUser = 'teacher';
-        return $this->textMessage('周一');
+        //$this->maycUser = 'teacher';
+        //return $this->textMessage('周一');
         $message = $server->getMessage();
         Log::info($message['FromUserName']);
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
