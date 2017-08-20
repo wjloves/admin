@@ -178,7 +178,7 @@ class WechatController extends Controller
             $courses = Redis::hget('courses',$week);
             if(!$courses){
                 $temp = '0000am '.$content;
-                $searchTime = isDatetime(explode(' ', strtoupper($temp));
+                $searchTime = isDatetime(explode(' ', strtoupper($temp)));
                 $searchTime = date('Y-m-d',$searchTime);
                 $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
                 //放入缓存
