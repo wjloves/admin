@@ -127,10 +127,7 @@ class WechatController extends Controller
         if(!$content){
             return  $noticeText;
         }
-        $contents [] = ["title" =>"欢迎关注多多工作室","description" =>"", "image" =>"", "url" =>""];
-        $contents [] = ["title" =>"【1】新闻 天气 空气 股票 彩票 星座\n"."【2】快递 人品 算命 解梦 附近 苹果\n"."【3】公交 火车 汽车 航班 路况 违章\n"."【4】翻译 百科 双语 听力 成语 历史\n"."【5】团购 充值 菜谱 贺卡 景点 冬吴\n"."【6】情侣相 夫妻相 亲子相 女人味\n"."【7】相册 游戏 笑话 答题 点歌 树洞\n"."【8】微社区 四六级 华强北 世界杯\n\n". "更多精彩，即将亮相，敬请期待！;", "description" =>"", "image" =>"", "url" =>""];
-$contents[] = ["title" =>"回复对应数字查看使用方法\n发送 0 返回本菜单", "description" =>"", "image" =>"", "url" =>""];
-        $news = new News($contents);
+        $news = new News(["title" =>"欢迎关注多多工作室","description" =>"", "image" =>"", "url" =>""]);
         Log::info($contents);
         return $news;
         //检测是否是老师并且是否是上报课程
