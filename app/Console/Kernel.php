@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('sendsms:course')
+                 ->everyThirtyMinutes()->between('8:00', '22:00')->withoutOverlapping();
     }
 
     /**

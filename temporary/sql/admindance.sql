@@ -281,3 +281,50 @@ INSERT INTO `mayc_vip` VALUES ('5', '月卡', null, null);
 INSERT INTO `mayc_vip` VALUES ('6', '季卡', null, null);
 INSERT INTO `mayc_vip` VALUES ('7', '年卡', null, null);
 INSERT INTO `mayc_vip` VALUES ('10', '普通会员', '2017-08-18 01:32:20', '2017-08-18 01:32:20');
+
+
+
+
+
+
+
+DROP TABLE IF EXISTS `mayc_configs`;
+CREATE TABLE `mayc_configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) DEFAULT NULL COMMENT '标题',
+  `alias_name` varchar(255) DEFAULT NULL COMMENT '别名大写英文',
+  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT '描述',
+  `content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci COMMENT '内容',
+  `creator_id` int(11) DEFAULT NULL COMMENT '创建人',
+  `modifier_id` int(11) DEFAULT NULL COMMENT '修改人',
+  `rank` int(11) DEFAULT '0' COMMENT '权重排序',
+  `status` tinyint(3) DEFAULT '8' COMMENT '状态 0 删除  7关闭  8 正常',
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配置表';
+
+-- ----------------------------
+-- Records of mayc_configs
+-- ----------------------------
+INSERT INTO `mayc_configs` VALUES ('1', '课程表提示语', 'CourseNotice', '课程表提示语，报名方式描述', '5rOo5oSP5LqL6aG577yaPGJyPjHjgIHmnJ/ljaHlrablkZjmr4/mnIjkv53or4HmnaXkuInmrKHvvIzkuI3mu6HkuInmrKHmjInkuInmrKHorqHnrpfvvIjnoa7kv53ov5vluqbvvIk8YnI+MuOAgeivt+WBh+mcgOaPkOWJjeS4ieWwj+aXtumAmuefpTxicj5OR+OAgeivt+WQhOS9jeWQjOWtpuaPkOWJjeWBmuWlveWuieaOkvCfmIYmbmJzcDs8YnI+PGJyPuWbnuWkje+8muKAnOaKpeWQjeKAnSvor77nqIvnvJblj7fov5vooYzmiqXlkI3vvIzlpoLvvJrigJzmiqXlkI0gMjbigJ08YnI+', null, null, '0', '8', '2017-08-19 11:21:44', '2017-08-19 11:21:44');
+INSERT INTO `mayc_configs` VALUES ('2', '紧急联系电话', 'SOS_PHONE_NUMBER', '提供紧急联系人电话，如果系统有异常，发送短信', '18200001111', null, null, '0', '8', '2017-08-21 16:32:08', '2017-08-21 16:32:08');
+
+
+
+ALTER TABLE `mayc_users_wechat`  ADD `mobile` char(11) DEFAULT NULL COMMENT '手机号';
+
+ALTER TABLE `mayc_users_wechat` DROP column `wechat`;
+ALTER TABLE `mayc_users_wechat` DROP column `openid`;
+
+
+
+
+CREATE TABLE `mayc_console_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_id` int(11) DEFAULT NULL COMMENT '任务id',
+  `status` tinyint(3) DEFAULT '0' COMMENT '状态  0  未发送   1 已发送',
+  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='定时任务log表';

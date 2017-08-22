@@ -97,15 +97,16 @@ class UserController extends BaseController
 
             if( $status )
             {
-                return response()->json(array('errorCode' => 00000, 'message' => '操作成功', 'route' => route('admin.users')));
+                return response()->json(array('errorCode' => 00000, 'message' => '操作成功', 'route' => route('user.list')));
             }
 
             return response()->json(array('errorCode' => 60002, 'message' => '操作失败'));
         }
 
         $user = UserModel::where('id', $id)->first();
-
-        return view('admin.user.userupdate', compact('user'));
+        $vipType =  Vip::get();
+        $userGroups = UserGroups::get();
+        return view('admin.user.userupdate', compact('user','vipType','userGroups'));
     }
 
     /**

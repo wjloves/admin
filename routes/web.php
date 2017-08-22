@@ -34,6 +34,7 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
     {
 
         Route::get('/home', ['as' => 'admin.home', 'uses' => 'HomeController@index']);
+        //用户管理
         Route::group(['prefix'=>'user'],function(){
             Route::match(['get','post'],'/',['as'=>'user.list','uses'=>'UserController@index']);
             Route::match(['get','post'],'/store',['as'=>'user.store','uses'=>'UserController@usersStore']);
@@ -41,6 +42,7 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
             Route::any('/lock/{id}/{state}',['as'=>'user.lock','uses'=>'UserController@userLock']);
         });
 
+        //课程管理
         Route::group(['prefix'=>'course'],function(){
             Route::match(['get','post'],'/',['as'=>'course.list','uses'=>'CourseController@index']);
             Route::match(['get','post'],'/store',['as'=>'course.store','uses'=>'CourseController@courseStore']);
@@ -52,6 +54,8 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
             Route::match(['get','post'],'/type/update/{id}',['as'=>'course.type.update','uses'=>'CourseController@typeUpdate']);
             Route::any('/type/del/{id}',['as'=>'course.type.del','uses'=>'CourseController@typeDel']);
         });
+
+        //菜单管理
         Route::group(['prefix'  =>  '/config/menu'], function(){
             Route::get('/list', ['as'=>'menu.list','uses'=>'MenuController@getList']);
             Route::match(['get','post'],'/store', ['as'=>'menu.store','uses'=>'MenuController@menuStore']);
@@ -59,6 +63,15 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
             Route::post('/del/{id}', ['as'=>'menu.del','uses'=>'MenuController@postDel']);
         });
 
+        //配置
+        Route::group(['prefix'  =>  '/config'], function(){
+            Route::get('/list', ['as'=>'config.list','uses'=>'ConfigController@index']);
+            Route::match(['get','post'],'/store', ['as'=>'config.store','uses'=>'ConfigController@configStore']);
+            Route::match(['get','post'],'/update/{id}', ['as'=>'config.update','uses'=>'ConfigController@configUpdate']);
+            Route::any('/lock/{id}/{state}',['as'=>'config.lock','uses'=>'ConfigController@configLock']);
+        });
+
+        //vip
         Route::group(['prefix'  =>  '/user/vip'], function(){
             Route::get('/list', ['as'=>'vip.list','uses'=>'VipController@getList']);
             Route::match(['get','post'],'/store', ['as'=>'vip.store','uses'=>'VipController@vipStore']);
@@ -66,6 +79,7 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
             Route::any('/del/{id}', ['as'=>'vip.del','uses'=>'VipController@vipDel']);
         });
 
+        //内容管理
         Route::group(['prefix'  =>  '/content'], function(){
             Route::get('/autoreply', ['as'=>'message.list','uses'=>'MessageController@index']);
             Route::match(['get','post'],'/store', ['as'=>'message.store','uses'=>'MessageController@messageStore']);
@@ -76,19 +90,13 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
 });
 
 
-
+//接口地址
 Route::group(['middleware'=>'wechat'],function(){
     Route::any('/wechat', 'WechatController@verifyToken');
     Route::any('/test', 'WechatController@serve');
 });
 
-Route::group(['middleware' => ['web', 'wechat.oauth']], function () {
-        Route::get('/user', function () {
-            $user = session('wechat.oauth_user'); // 拿到授权用户资料
 
-            dd($user);
-        });
-});
 
 Route::group(['prefix' => 'wechat'], function () {
     //服务端

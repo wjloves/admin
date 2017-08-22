@@ -57,20 +57,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">微信ID</label>
-
-                            <div class="col-md-6">
-                                <input id="wechatID" type="text" class="form-control" name="wechat" value="{{ old('wechatID') }}" required>
-
-                                @if ($errors->has('wechat'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('wechat') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label class="col-sm-4 control-label">会员类型</label>
 

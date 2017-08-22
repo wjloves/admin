@@ -13,7 +13,10 @@ use App\Models\UserWechat;
 use App\Models\Course;
 use App\Models\Message;
 use App\Models\CourseType;
+use App\Models\Course;
+use App\Models\UserCourse;
 use EasyWeChat\Message\News;
+use EasyWeChat\Message\Text;
 
 class WechatController extends Controller
 {
@@ -22,11 +25,15 @@ class WechatController extends Controller
 
     const EncodingAESKey = 'cNhGgZdfqvE9ZzCuq42J2ZAizy7dieEdtbBZSFgqEcd';
 
+    const teacherGroup = 2;
+
     public $userId = 1;
 
     public $fromUserName ='';
 
-    public $maycUser = 'user';
+    public $maycUser = false;
+
+    public $lastNotice = 'CourseNotice'
     /**
      * 基本验证
      */
@@ -61,7 +68,6 @@ class WechatController extends Controller
     public function serve(Request $request)
     {
         $wechat = app('wechat');
-        $userService = $wechat->user;
         $server = $wechat->server;
 
         //$this->maycUser = 'teacher';
@@ -71,9 +77,23 @@ class WechatController extends Controller
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
 
         //获取用户状态
-        if($this->userId = UserWechat::getTeachByFromUser($this->fromUserName)){
-            $this->maycUser = 'teacher';
+        if($user = UserWechat::getTeachByFromUser($this->fromUserName)){
+            $this->userId   = $user->id;
+            $this->maycUser = ($user->group_id == self::teacherGroup) ? true : false;
+        }else{//获取不到用户信息 代表是新关注用户 需要录入用户信息
+            $userService = $wechat->user;
+            $user        = $userService->get($this->fromUserName);
+            if($user->subscribe){
+                $option = [
+                    'username' => time(),
+                    'openid'   => $this->fromUserName,
+                    'nickname' => $user->nickname
+                ];
+                $this->userId = UserWechat::insertGetId($option)){
+
+            }
         }
+
 
         $server->setMessageHandler(function($message){
             switch ($message->MsgType) {
@@ -106,6 +126,7 @@ class WechatController extends Controller
         });
 
 
+
         $response = $server->serve();
         Log::info($response);
         return $response;
@@ -125,7 +146,7 @@ class WechatController extends Controller
         }
 
         //检测是否是老师并且是否是上报课程
-        if($this->maycUser == 'teacher'){
+        if($this->maycUser){
             $temp = explode(' ', strtoupper($content));
             if(count($temp) >2){
                 //检查录入信息格式是否正确
@@ -171,6 +192,7 @@ class WechatController extends Controller
     private function replyByType($content)
     {
         $toweeks = ['周日','周一','周二','周三','周四','周五','周六',];
+        //判断是否查询课程表
         if(in_array($content, $toweeks)){
             $title = $content."课程表";
             $description = '';
@@ -193,11 +215,36 @@ class WechatController extends Controller
             foreach ($courses as $key => $value) {
                  $description .= "  ".$value['id']."      ".date('h:iA',strtotime($value['start_time']))."     ".$value['course']."    (".$value['teacher'].") \n";
             }
-            $description .= "注意事项：\n"."1、期卡学员每月保证来三次，不满三次按三次计算（确保进度）\n"."2、请假需提前三小时通知 \n"."NG、请各位同学提前做好安排😆 \n\n"."回复：“报名”+课程编号进行报名";
+            //获取尾部提示语 不存在则查询并放入缓存
+            if(!$endNotice =  Redis::hget('config',$lastNotice)){
+                $endNotice =  Config::where('alias_name',$lastNotice)->first()->toArray();
+                Redis::hset('config',$endNotice['alias_name'],json_encode(['alias_name'=>$endNotice['alias_name'],'content'=>$endNotice['content']]));
+            }
+            $endNotice = json_decode($endNotice);
+            $description .= str_replace("<br>",'\n', $endNotice['content']);
             $news = new News(["title" =>$title,"description" =>$description]);
             return $news;
 
+        }elseif(strstr($content,'报名')){ //判断是否报名
+            $temp = explode(' ', $content);
+            if(!$this->userId){
+                return  "抱歉，报名失败，未找到您的会员信息";
+            }
+            //查询是否有该课程
+            if(!$course = Course::find($temp[1])){
+                return  '课程编号输入有误，未查询到课程；请重新输入！';
+            }
+            //检查是否已报名
+            if(UserCourse::where('user_id',$this->userId)->first){
+                return  "您已报名此课程，请勿重复报名";
+            }
+            if (UserCourse::create()) {
+                return  "恭喜，报名成功，课程开始时间".$course->start_time;
+            }else{
+                return  "抱歉，报名失败，请稍后再试";
+            }
         }else{
+            //普通查询
             if($textType = Redis::hget('autoReply',$content)){
                 $message = json_decode($textType,true);
                 return $message['reply'];

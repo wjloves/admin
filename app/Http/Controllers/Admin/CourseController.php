@@ -40,7 +40,7 @@ class CourseController extends BaseController
         return view('admin.course.list',compact('courses'));
     }
 
- /**
+    /**
      *  新建课程
      * @param Request $request
      * @return type html/json

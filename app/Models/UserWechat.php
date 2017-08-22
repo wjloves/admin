@@ -32,7 +32,7 @@ class UserWechat extends Model
      * @var array
      */
     protected $fillable = [
-        'username', 'nick_name','wechat', 'openid','vip_id', 'from_user','group_id','times','ex_time','status'
+        'username', 'nick_name','vip_id', 'from_user','group_id','times','ex_time','status'
     ];
 
     /**
@@ -49,7 +49,7 @@ class UserWechat extends Model
      */
     public static function getTeachByFromUser($from_user)
     {
-        $user = self::where('group_id',self::teacherGroup)->where('from_user',$from_user)->first();
+        $user = self::where('from_user',$from_user)->first();
 
         if($user){
             return $user->id;

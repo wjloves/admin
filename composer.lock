@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8d54e95d5b81b4823341bd7ddc8819b",
+    "content-hash": "44aa9093650d421dfeaf6ca1792d7f8a",
     "packages": [
         {
             "name": "davejamesmiller/laravel-breadcrumbs",
@@ -886,6 +886,90 @@
                 "psr-3"
             ],
             "time": "2017-06-19T01:22:40+00:00"
+        },
+        {
+            "name": "mrgoon/aliyun-sms",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MissMyCat/aliyun-sms.git",
+                "reference": "241ae2d49d6a1d1117da85b6bee990fd1df43e57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MissMyCat/aliyun-sms/zipball/241ae2d49d6a1d1117da85b6bee990fd1df43e57",
+                "reference": "241ae2d49d6a1d1117da85b6bee990fd1df43e57",
+                "shasum": ""
+            },
+            "require": {
+                "mrgoon/aliyun-sms-sdk": "~1.0",
+                "php": ">5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mrgoon\\AliSms\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mrgoon",
+                    "email": "mrgoon@foxmail.com"
+                }
+            ],
+            "description": "阿里云短信服务php调用代码",
+            "keywords": [
+                "Aliyun-Sms",
+                "aliyun",
+                "sdk"
+            ],
+            "time": "2017-07-14 08:19:12"
+        },
+        {
+            "name": "mrgoon/aliyun-sms-sdk",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MissMyCat/aliyun-sms-sdk.git",
+                "reference": "d1214a7172f15cbd87029545efd5eddfe1e853a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MissMyCat/aliyun-sms-sdk/zipball/d1214a7172f15cbd87029545efd5eddfe1e853a8",
+                "reference": "d1214a7172f15cbd87029545efd5eddfe1e853a8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mrgoon\\AliyunSmsSdk\\": "aliyun-php-sdk-core/",
+                    "Mrgoon\\Dysmsapi\\Request\\V20170525\\": "Dysmsapi/Request/V20170525"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mrgoon",
+                    "email": "mrgoon@foxmail.com"
+                }
+            ],
+            "description": "阿里云短信服务核心代码",
+            "keywords": [
+                "Aliyun-Sms",
+                "aliyun",
+                "sdk"
+            ],
+            "time": "2017-08-01T05:54:57+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -4112,7 +4196,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "mrgoon/aliyun-sms": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
