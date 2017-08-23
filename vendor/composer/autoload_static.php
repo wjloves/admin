@@ -12,8 +12,8 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '9e090711773bfc38738f5dbaee5a7f14' => __DIR__ . '/..' . '/overtrue/wechat/src/Payment/helpers.php',
@@ -29,6 +29,7 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
         ),
         'Y' => 
         array (
+            'Yunpian\\Sdk\\' => 12,
             'Yuansir\\Toastr\\' => 15,
         ),
         'X' => 
@@ -134,6 +135,10 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'Yunpian\\Sdk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src',
         ),
         'Yuansir\\Toastr\\' => 
         array (
@@ -373,7 +378,7 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
     );
 
     public static $classMap = array (
-        'App\\Console\\Commands\\SendCourseSms' => __DIR__ . '/../..' . '/app/Console/Commands/SendCourseSms.php',
+        'App\\Console\\Commands\\SendSms' => __DIR__ . '/../..' . '/app/Console/Commands/SendSms.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\GameException' => __DIR__ . '/../..' . '/app/Exceptions/GameException.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -3989,6 +3994,26 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
         'Yuansir\\Toastr\\Facades\\Toastr' => __DIR__ . '/..' . '/ryan/toastr-for-laravel/src/Facades/Toastr.php',
         'Yuansir\\Toastr\\Toastr' => __DIR__ . '/..' . '/ryan/toastr-for-laravel/src/Toastr.php',
         'Yuansir\\Toastr\\ToastrServiceProvider' => __DIR__ . '/..' . '/ryan/toastr-for-laravel/src/ToastrServiceProvider.php',
+        'Yunpian\\Sdk\\Api\\ApiFactory' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/ApiFactory.php',
+        'Yunpian\\Sdk\\Api\\CommonResultHandler' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/YunpianApiResult.php',
+        'Yunpian\\Sdk\\Api\\FlowApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/FlowApi.php',
+        'Yunpian\\Sdk\\Api\\ResultHandler' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/YunpianApiResult.php',
+        'Yunpian\\Sdk\\Api\\SignApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/SignApi.php',
+        'Yunpian\\Sdk\\Api\\SmsApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/SmsApi.php',
+        'Yunpian\\Sdk\\Api\\TplApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/TplApi.php',
+        'Yunpian\\Sdk\\Api\\UserApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/UserApi.php',
+        'Yunpian\\Sdk\\Api\\VoiceApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/VoiceApi.php',
+        'Yunpian\\Sdk\\Api\\VoidApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/VoidApi.php',
+        'Yunpian\\Sdk\\Api\\YunpianApi' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/YunpianApi.php',
+        'Yunpian\\Sdk\\Api\\YunpianApiResult' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Api/YunpianApiResult.php',
+        'Yunpian\\Sdk\\Constant\\Code' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Constant/Code.php',
+        'Yunpian\\Sdk\\Constant\\YunpianConstant' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Constant/YunpianConstant.php',
+        'Yunpian\\Sdk\\Model\\Result' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Model/Result.php',
+        'Yunpian\\Sdk\\Util\\ApiUtil' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/Util/ApiUtil.php',
+        'Yunpian\\Sdk\\YunpianClient' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/YunpianClient.php',
+        'Yunpian\\Sdk\\YunpianConf' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/YunpianConf.php',
+        'Yunpian\\Sdk\\YunpianException' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/YunpianException.php',
+        'Yunpian\\Sdk\\YunpianGuzzle' => __DIR__ . '/..' . '/yunpian/yunpian-php-sdk/src/YunpianGuzzle.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',
