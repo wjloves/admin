@@ -13,7 +13,6 @@ use App\Models\UserWechat;
 use App\Models\Course;
 use App\Models\Message;
 use App\Models\CourseType;
-use App\Models\Course;
 use App\Models\UserCourse;
 use EasyWeChat\Message\News;
 use EasyWeChat\Message\Text;
@@ -33,7 +32,7 @@ class WechatController extends Controller
 
     public $maycUser = false;
 
-    public $lastNotice = 'CourseNotice'
+    public $lastNotice = 'CourseNotice';
     /**
      * 基本验证
      */
@@ -71,7 +70,7 @@ class WechatController extends Controller
         $server = $wechat->server;
 
         //$this->maycUser = 'teacher';
-        //return $this->textMessage('周一');
+     //   return $this->textMessage('周一');
         $message = $server->getMessage();
         Log::info($message['FromUserName']);
         $this->fromUserName = $message['FromUserName'] ? $message['FromUserName'] : '1';
@@ -89,7 +88,7 @@ class WechatController extends Controller
                     'openid'   => $this->fromUserName,
                     'nickname' => $user->nickname
                 ];
-                $this->userId = UserWechat::insertGetId($option)){
+                $this->userId = UserWechat::insertGetId($option);
 
             }
         }
@@ -201,27 +200,37 @@ class WechatController extends Controller
             if(!$courses){
                 //获取查询时间段
                 $temp = '0000am '.$content;
-                $searchTime = isDatetime(explode(' ', strtoupper($temp)));
-                $searchTime = date('Y-m-d',strtotime($searchTime));
-                //查询课程
-                $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
-                //放入缓存
-                Redis::hset('courses',$week,json_encode($courses));
+                if($searchTime = isDatetime(explode(' ', strtoupper($temp)))){
+                    $searchTime = date('Y-m-d',strtotime($searchTime));
+                    //查询课程
+                    $courses = Course::getCourseList($searchTime.' 00:00:00',$searchTime.' 23:59:59');
+                    //放入缓存
+                    Redis::hset('courses',$week,json_encode($courses));
+                }
+                $courses = false;
             }else{
                 $courses  = json_decode($courses,true);
             }
 
-            $description .= "编号       时间        课程         老师\n";
-            foreach ($courses as $key => $value) {
-                 $description .= "  ".$value['id']."      ".date('h:iA',strtotime($value['start_time']))."     ".$value['course']."    (".$value['teacher'].") \n";
+            //有值再进行拼接
+            if($courses){
+                $description .= "编号       时间        课程         老师\n";
+                foreach ($courses as $key => $value) {
+                     $description .= "  ".$value['id']."      ".date('h:iA',strtotime($value['start_time']))."     ".$value['course']."    (".$value['teacher'].") \n";
+                }
+            }else{
+                $title = '友情提示';
+                $description = "只能查询两日内课程，请确认后查询\n\n";
             }
+
             //获取尾部提示语 不存在则查询并放入缓存
-            if(!$endNotice =  Redis::hget('config',$lastNotice)){
-                $endNotice =  Config::where('alias_name',$lastNotice)->first()->toArray();
+            if(!$endNotice =  Redis::hget('config',$this->lastNotice)){
+                $endNotice =  Config::where('alias_name',$this->lastNotice)->first()->toArray();
                 Redis::hset('config',$endNotice['alias_name'],json_encode(['alias_name'=>$endNotice['alias_name'],'content'=>$endNotice['content']]));
             }
-            $endNotice = json_decode($endNotice);
-            $description .= str_replace("<br>",'\n', $endNotice['content']);
+            $endNotice = json_decode($endNotice,true);
+
+            $description .= str_replace("<br>","\n", $endNotice['content']);
             $news = new News(["title" =>$title,"description" =>$description]);
             return $news;
 

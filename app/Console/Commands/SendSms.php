@@ -45,11 +45,12 @@ class SendSms extends Command
         $this->info('sms start');
         Log::info('sms start');
         ignore_user_abort(true);
+        date_default_timezone_set('PRC');
         set_time_limit(0);
 
         $start_time = date('Y-m-d 00:00:00');
         $end_time = date('Y-m-d 23:59:59');
-        $sendSecond = 72000;
+        $sendSecond = 7200;
 
         $course = DB::table('courses')->whereBetween('start_time',[$start_time,$end_time])->get();
         $course = $course ? $course : false;
@@ -66,9 +67,9 @@ class SendSms extends Command
                 //获取信息
                 if($user = DB::table('users_wechat')->where('id',$value->user_id)->first()){
                     //$this->info($sendSecond);
-                    //如果离开始还有两小时  发送短信至手机
+                    //如果离开始还有两小时, 发送短信至手机
                     $nowSecond = (strtotime($value->start_time) - time());
-                    if( $nowSecond < $sendSecond ){
+                    if( $nowSecond < $sendSecond && $nowSecond > 1800){
                         //$this->info($value->id);
                         DB::table('console_log')->insert(['job_id'=>$value->id,'created_at'=>date('Y-m-d H:i:s',time())]);
                         $signNum = DB::table('user_course')->where('course_id',$value->id)->count();

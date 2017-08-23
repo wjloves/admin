@@ -56,6 +56,9 @@ if (! function_exists('isDatetime')) {
         $todayWeek = getWeek();
         $today = $weeks[$todayWeek];
         $teachDay = $weeks[$param[1]];
+        if($today > $teachDay && !in_array($today, [6,7])){
+            return false;
+        }
 
         //只允许提前两日录入课程
         $days = abs($today - $teachDay);
