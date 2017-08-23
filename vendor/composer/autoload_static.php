@@ -82,9 +82,6 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
         ),
         'M' => 
         array (
-            'Mrgoon\\Dysmsapi\\Request\\V20170525\\' => 34,
-            'Mrgoon\\AliyunSmsSdk\\' => 20,
-            'Mrgoon\\AliSms\\' => 14,
             'Monolog\\' => 8,
         ),
         'L' => 
@@ -251,18 +248,6 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
         'Overtrue\\LaravelWechat\\' => 
         array (
             0 => __DIR__ . '/..' . '/overtrue/laravel-wechat/src',
-        ),
-        'Mrgoon\\Dysmsapi\\Request\\V20170525\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/Dysmsapi/Request/V20170525',
-        ),
-        'Mrgoon\\AliyunSmsSdk\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core',
-        ),
-        'Mrgoon\\AliSms\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mrgoon/aliyun-sms/src',
         ),
         'Monolog\\' => 
         array (
@@ -2137,30 +2122,6 @@ class ComposerStaticInit1c729fbeca1b532f745f0c8701e9ed13
         'Monolog\\Processor\\UidProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/UidProcessor.php',
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
-        'Mrgoon\\AliSms\\AliSms' => __DIR__ . '/..' . '/mrgoon/aliyun-sms/src/AliSms.php',
-        'Mrgoon\\AliSms\\ServiceProvider' => __DIR__ . '/..' . '/mrgoon/aliyun-sms/src/ServiceProvider.php',
-        'Mrgoon\\AliyunSmsSdk\\AcsRequest' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/AcsRequest.php',
-        'Mrgoon\\AliyunSmsSdk\\AcsResponse' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/AcsResponse.php',
-        'Mrgoon\\AliyunSmsSdk\\Auth\\Credential' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Auth/Credential.php',
-        'Mrgoon\\AliyunSmsSdk\\Auth\\ISigner' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Auth/ISigner.php',
-        'Mrgoon\\AliyunSmsSdk\\Auth\\ShaHmac1Signer' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Auth/ShaHmac1Signer.php',
-        'Mrgoon\\AliyunSmsSdk\\Auth\\ShaHmac256Signer' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Auth/ShaHmac256Signer.php',
-        'Mrgoon\\AliyunSmsSdk\\AutoLoader\\Autoloader' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Autoloader/Autoloader.php',
-        'Mrgoon\\AliyunSmsSdk\\DefaultAcsClient' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/DefaultAcsClient.php',
-        'Mrgoon\\AliyunSmsSdk\\Exception\\ClientException' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Exception/ClientException.php',
-        'Mrgoon\\AliyunSmsSdk\\Exception\\ServerException' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Exception/ServerException.php',
-        'Mrgoon\\AliyunSmsSdk\\Http\\HttpHelper' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Http/HttpHelper.php',
-        'Mrgoon\\AliyunSmsSdk\\Http\\HttpResponse' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Http/HttpResponse.php',
-        'Mrgoon\\AliyunSmsSdk\\IAcsClient' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/IAcsClient.php',
-        'Mrgoon\\AliyunSmsSdk\\Profile\\DefaultProfile' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Profile/DefaultProfile.php',
-        'Mrgoon\\AliyunSmsSdk\\Profile\\IClientProfile' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Profile/IClientProfile.php',
-        'Mrgoon\\AliyunSmsSdk\\Regions\\Endpoint' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Regions/Endpoint.php',
-        'Mrgoon\\AliyunSmsSdk\\Regions\\EndpointProvider' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Regions/EndpointProvider.php',
-        'Mrgoon\\AliyunSmsSdk\\Regions\\ProductDomain' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/Regions/ProductDomain.php',
-        'Mrgoon\\AliyunSmsSdk\\RoaAcsRequest' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/RoaAcsRequest.php',
-        'Mrgoon\\AliyunSmsSdk\\RpcAcsRequest' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/aliyun-php-sdk-core/RpcAcsRequest.php',
-        'Mrgoon\\Dysmsapi\\Request\\V20170525\\QuerySendDetailsRequest' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/Dysmsapi/Request/V20170525/QuerySendDetailsRequest.php',
-        'Mrgoon\\Dysmsapi\\Request\\V20170525\\SendSmsRequest' => __DIR__ . '/..' . '/mrgoon/aliyun-sms-sdk/Dysmsapi/Request/V20170525/SendSmsRequest.php',
         'Overtrue\\LaravelWechat\\CacheBridge' => __DIR__ . '/..' . '/overtrue/laravel-wechat/src/CacheBridge.php',
         'Overtrue\\LaravelWechat\\Controllers\\OpenPlatformController' => __DIR__ . '/..' . '/overtrue/laravel-wechat/src/Controllers/OpenPlatformController.php',
         'Overtrue\\LaravelWechat\\Events\\OpenPlatform\\Authorized' => __DIR__ . '/..' . '/overtrue/laravel-wechat/src/Events/OpenPlatform/Authorized.php',

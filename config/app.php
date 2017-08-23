@@ -183,7 +183,7 @@ return [
         */
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
         Overtrue\LaravelWechat\ServiceProvider::class,
-        Mrgoon\AliSms\ServiceProvider::class,
+        // Mrgoon\AliSms\ServiceProvider::class,
 
     ],
 

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use DB;
 use Log;
 use Illuminate\Console\Command;
-use Mrgoon\AliSms\AliSms;
+//use Mrgoon\AliSms\AliSms;
 use Yunpian\Sdk\YunpianClient;
 
 class SendSms extends Command

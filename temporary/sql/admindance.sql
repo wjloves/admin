@@ -299,8 +299,8 @@ CREATE TABLE `mayc_configs` (
   `modifier_id` int(11) DEFAULT NULL COMMENT '修改人',
   `rank` int(11) DEFAULT '0' COMMENT '权重排序',
   `status` tinyint(3) DEFAULT '8' COMMENT '状态 0 删除  7关闭  8 正常',
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `created_at` timestamp NULL DEFAULT NULL  COMMENT '创建时间',
+  `updated_at` timestamp NULL DEFAULT NULL  COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='配置表';
 
@@ -324,7 +324,7 @@ CREATE TABLE `mayc_console_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `job_id` int(11) DEFAULT NULL COMMENT '任务id',
   `status` tinyint(3) DEFAULT '0' COMMENT '状态  0  未发送   1 已发送',
-  `created_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `updated_at` timestamp NULL DEFAULT NULL  COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='定时任务log表';
