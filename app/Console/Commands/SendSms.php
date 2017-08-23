@@ -24,6 +24,7 @@ class SendSms extends Command
      */
     protected $description = 'send sms to user about sign up of course ';
 
+    //yunkey =  5cda9afb2f6d1512a7755941b7b062b1
     /**
      * Create a new command instance.
      *
