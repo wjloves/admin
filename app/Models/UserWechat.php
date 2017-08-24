@@ -49,12 +49,7 @@ class UserWechat extends Model
      */
     public static function getTeachByFromUser($from_user)
     {
-        $user = self::where('from_user',$from_user)->first();
-
-        if($user){
-            return $user->id;
-        }
-        return false;
+        return self::where('from_user',$from_user)->first();
     }
 
     /**
