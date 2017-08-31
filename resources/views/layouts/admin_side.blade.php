@@ -6,7 +6,7 @@
         <li class="nav-parent">
         @endif
           <a href="#"><i class="fa fa-th-list"></i> <span>{{$menu['name']}}</span>
-           <!--  <span class="pull-right-container">
+            <!--  <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span> -->
           </a>
