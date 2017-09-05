@@ -39,6 +39,7 @@
                                     <th>唯一标识</th>
                                     <th>会员类别</th>
                                     <th>剩余次数</th>
+                                    <th>Mobile</th>
                                     <th>会员过期时间</th>
                                     <th>用户组</th>
                                     <th>状态</th>
@@ -60,6 +61,7 @@
                                         <td>{{ $user->from_user }}</td>
                                         <td>{{ $user->vip->name or '普通会员' }}</td>
                                         <td>{{ $user->times or '0' }}</td>
+                                        <td>{{ $user->mobile }}</td>
                                         <td>{{ $user->ex_time }}</td>
                                         <td>{{ $user->userGroup->group_name or '学员' }}</td>
                                         <td>{!! $user->status== 7 ? '<span class="label label-default">禁用</span>':'<span class="label label-success">正常</span>' !!}</td>

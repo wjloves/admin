@@ -73,6 +73,8 @@ class MenuController extends BaseController
      */
     public function menuUpdate(Request $request,$id){
          if( $request->isMethod('post') ){
+            $data = $request->toArray();
+
                 $option = [
                     'name'=>$data['name'],
                     'sort'=>$data['sort'],
@@ -85,11 +87,7 @@ class MenuController extends BaseController
                     $option['perm_id'] = Permission::insertGetId(['name'=>$data['uri'],'desc'=>$data['name'],'method'=>'GET','uri'=>$data['uri']]);
                 }
                 Menus::where('id',$id)->update($option);
-                $response = [
-                    'status'    =>  00000,
-                    'message'   =>  'OK'
-                ];
-            return response()->json($response);
+            return response()->json(['errorCode'=>00000,'message'=>'success']);
         }
 
         $menu = Menus::with('perm')->find($id);
@@ -114,8 +112,8 @@ class MenuController extends BaseController
             $menu->delete();
         }
         catch(\Exception $e){
-            return response()->json(['status'   =>  60001]);
+            return response()->json(['errorCode'   =>  60001]);
         }
-        return response()->json(['status'   =>  00000]);
+        return response()->json(['errorCode'   =>  10001]);
     }
 }

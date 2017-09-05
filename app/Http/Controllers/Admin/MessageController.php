@@ -56,7 +56,7 @@ class MessageController extends BaseController
 
             if(Message::where('keywords', $data['keywords'])->first() )
             {
-                return response()->json(['errorCode' => 60007, 'message' => '关键字不能为空']);
+                return response()->json(['errorCode' => 60007, 'message' => '关键字已存在']);
             }
 
 

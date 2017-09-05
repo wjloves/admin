@@ -53,7 +53,7 @@
                             <label class="col-sm-4 control-label">父菜单</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control input" name="pid" id="pid" disabled="disabled">
+                                <select class="form-control input" name="pid" id="pid" >
                                     <option value="0" @if(empty($data) || empty($data->pid)) selected="selected" @endif>顶级菜单</option>
                                       @foreach($top_menus as $menus)
                                       <option value="{{$menus->id}}" @if($menu->pid == $menus->id) selected="selected" @endif>{{$menus->name}}</option>

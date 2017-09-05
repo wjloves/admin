@@ -60,6 +60,7 @@ class Course extends Model
     static public function getCourseList($start_time='',$end_time='')
     {
         $list = self::with('user')->with('courseType')->whereBetween('start_time',[$start_time,$end_time])->get();
+
         $courses = [];
         foreach ($list as $key => $value) {
             $courses[$key]['id']         = $value->id;

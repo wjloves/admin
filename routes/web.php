@@ -85,7 +85,18 @@ Route::group(['middleware'=>'web','prefix' => 'admin','namespace' => 'Admin'],fu
             Route::match(['get','post'],'/store', ['as'=>'message.store','uses'=>'MessageController@messageStore']);
             Route::match(['get','post'],'/update/{id}', ['as'=>'message.update','uses'=>'MessageController@messageUpdate']);
             Route::any('/lock/{id}/{status?}', ['as'=>'message.lock','uses'=>'MessageController@messageLock']);
+
+            //文章管理
+            Route::group(['prefix'  =>  '/article'], function(){
+                Route::get('/', ['as'=>'article.list','uses'=>'ArticleController@index']);
+                Route::match(['get','post'],'/store', ['as'=>'article.store','uses'=>'ArticleController@articleStore']);
+                Route::match(['get','post'],'/update/{id}', ['as'=>'article.update','uses'=>'ArticleController@articleUpdate']);
+                Route::any('/lock/{id}/{status?}', ['as'=>'article.lock','uses'=>'ArticleController@articleLock']);
+                Route::any('/upload', ['as'=>'article.upload','uses'=>'ArticleController@articleUpload']);
+            });
         });
+
+
     });
 });
 

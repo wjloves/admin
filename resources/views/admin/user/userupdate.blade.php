@@ -52,11 +52,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group{{ $errors->has('mobile') ? ' has-error' : '' }}">
+                            <label for="name" class="col-md-4 control-label">Mobile</label>
+
+                            <div class="col-md-6">
+                                <input id="nick_name" type="text" class="form-control" name="mobile" value="{{ $user->mobile }}" required autofocus>
+                                {{ $errors->first() }}
+                                @if ($errors->has('mobile'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('mobile') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group @if($user->group_id == 2) hide @endif">
                             <label class="col-sm-4 control-label">会员类型</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control input" name="vip_id">
+                                <select class="form-control input" name="vip_id" id="vip_id">
                                     @foreach($vipType as $k => $v)
                                         <option value="{{ $v->id }}"
                                         @if($user->vip_id == $v->id)
@@ -71,7 +85,7 @@
                             <label class="col-sm-4 control-label">用户组</label>
 
                             <div class="col-sm-3">
-                                <select class="form-control input" name="group_id">
+                                <select class="form-control input" name="group_id" id="group_id">
                                     @foreach($userGroups as $k => $v)
                                         <option value="{{ $v->id }}"
                                         @if($user->group_id == $v->id)
@@ -83,19 +97,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group @if($user->group_id == 2) hide @endif">
                             <label class="col-sm-4 control-label">会员到期时间</label>
 
                             <div class="col-sm-3">
-                                <input size="14" type="text" value="{{ $user->ex_time }}" name="ex_time" placeholder="yyyy-mm-dd" data-time="start" class="form-control datepicker">
+                                <input size="14" type="text" value="{{ $user->ex_time }}" name="ex_time" placeholder="yyyy-mm-dd" data-time="start" class="form-control datepicker" id="ex_time">
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group @if($user->group_id == 2) hide @endif">
                             <label class="col-sm-4 control-label">剩余次数<span class="asterisk">*</span></label>
 
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="times"
+                                <input type="text" class="form-control" name="times" id="times"
                                        value="{{ $user->times }}">
                             </div>
                         </div>
@@ -134,6 +148,20 @@
             onSelect: function(datetext){
                 $(this).val(datetext);
             }
+        });
+
+        $("#group_id").change(function(){
+          var val = $(this).val();
+          console.log(111111);
+          if(2 == val){
+            $('#vip_id').parent().parent().addClass('hide');
+            $('#times').parent().parent().addClass('hide');
+            $('#ex_time').parent().parent().addClass('hide');
+          }else{
+            $('#vip_id').parent().parent().removeClass('hide');
+            $('#times').parent().parent().removeClass('hide');
+            $('#ex_time').parent().parent().removeClass('hide');
+          }
         });
     </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class AuthMenu
 {
@@ -21,7 +22,7 @@ class AuthMenu
         //1.根据routes.php配置的路由重构权限
         //从路由集中取出所有的route路由项
         $routes = app('routes')->getRoutes();
-
+        $adminRoutes = [];
         foreach ($routes as $route) {
             $methods = $route->methods();
             if(in_array('GET', $methods)){
@@ -34,15 +35,26 @@ class AuthMenu
 
             $uri = $route->uri();
             $uris = explode('/',$uri);
+
             if(isset($uris[0]) && 'admin'==$uris[0]){
-                //$perm = \App\Model\Permission::findByUri($uri);
-                $perm = \App\Models\Permission::findByMethodAndUri($method,$uri);
+                $adminRoutes[] = $method.'_'.$uri;
+            }
+        }
 
-                if(!$perm){
-                    $perm = \App\Models\Permission::create(['name'=>$uri,'desc'=>'desc','method'=>$method,'uri'=>$uri,
-                        ]);
+        //获取路由缓存
+        $routeCache = Redis::hGetAll(env('APP_NAME').'routes_cache');
+        if($routeCache){
+            $adminRoutes = array_diff($routeCache,$adminRoutes);
+        }
 
-                }
+        //有新route配置再进行查询和入库
+        foreach ($adminRoutes as $key => $value) {
+            $route = explode('_', $value);
+
+            Redis::hSet(env('APP_NAME').'routes_cache',$key,$value);
+            $perm = \App\Models\Permission::findByMethodAndUri($route[0],$route[1]);
+            if(!$perm){
+                $perm = \App\Models\Permission::create(['name'=>$route[1],'desc'=>'desc','method'=>$route[0],'uri'=>$route[1]]);
             }
         }
 
@@ -62,7 +74,8 @@ class AuthMenu
         $router = $callback();//当前路由
 
 
-        $auth = false;
+        $auth = true;
+        $current_perm = '';
         foreach ($perms as $perm) {
             if( in_array($perm->method, $router->methods()) && $perm->uri == $router->uri()){
                 $auth = true;
@@ -105,7 +118,7 @@ class AuthMenu
         view()->share('request_path', '/'.$path);
 
         //当前组名,当前菜单名
-        if($current_perm->menu){
+        if($current_perm && @$current_perm->menu){
             $menu_group = $current_perm->menu->parent_menu->group;
 
             $menu_group_name = admin_group_tag($menu_group);
